@@ -1,0 +1,23 @@
+apiVersion: sources.eventing.knative.dev/v1alpha1
+kind: AwsSqsSource
+metadata:
+  name: test-sqs-source
+  namespace: test
+spec:
+  queueUrlOrArn: arn:aws:sqs:us-west-2:996802004419:s3msgq
+  kiamOptions:
+    # IAM role ARN (or role name if it is in the same account as the cluster nodes) that
+    # receiver adapter POD delegates by using KIAM, it needs to be set to trust current
+    # k8s cluster master nodes IAM role, refer to KIAM instruction.
+    assignedIamRole: bluefish-k8s-ns-default
+    # IAM Role to read/write SQS, it needs to be set to trust assignedIamRole
+    sqsIamRoleArn: arn:aws:iam::996802004419:role/SQSAgent
+  # Optional, how many GoRoutines will be running to preocess SQS messages, by default 10
+  workers: 5
+  # Optional, whether to do bulk delivery to downstream service, default to false. 
+  # If true, it sends a list of messages instead of 1 message.
+  bulkDelivery: false
+  sink:
+    apiVersion: eventing.knative.dev/v1alpha1
+    kind: Channel
+    name: test-chan

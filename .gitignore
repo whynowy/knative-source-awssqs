@@ -1,0 +1,17 @@
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+bazel-*
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+
+# Operating system temporary files
+.DS_Store
+
+# Editor/IDE specific settings
+.idea
+.vscode/
